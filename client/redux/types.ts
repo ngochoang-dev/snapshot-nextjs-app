@@ -1,0 +1,4 @@
+export enum ActionType {
+    GET_SNAPSHOT = "GET_SNAPSHOT",
+    GET_SNAPSHOT_SUCCESS = "GET_SNAPSHOT_SUCCESS",
+}

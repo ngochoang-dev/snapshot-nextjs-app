@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+.container {
+    box-shadow: 0 0 0 2px rgba($color: #000, $alpha: .1);
+
+    .wrapper {
+        margin: 10px 0;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1024px;
+        margin: 0 auto;
+
+        .logo {
+            h1 {
+                font-family: "Lobster",
+                    "Josefin Sans",
+                    Helvetica,
+                    Arial,
+                    sans-serif;
+                font-size: 2.6rem;
+                color: #051c33;
+                margin: 0;
+            }
+        }
+
+        .wrapper_search {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+
+            .search {
+                width: 80%;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                border-radius: 6px;
+                -webkit-border-radius: 6px;
+                -moz-border-radius: 6px;
+                -ms-border-radius: 6px;
+                -o-border-radius: 6px;
+                background-color: rgba($color: #000, $alpha: .05);
+                box-shadow: 0 0 0 1px rgba($color: #000, $alpha: .6);
+                overflow: hidden;
+
+                input {
+                    border: none;
+                    padding: 10px 14px;
+                    margin-bottom: 2px;
+                    outline: none;
+                    width: 100%;
+                    font-size: 1rem;
+                    background-color: transparent;
+                }
+
+                button {
+                    cursor: pointer;
+                    border: none;
+                    background-color: rgba($color:#000000, $alpha: .3);
+                    width: 40px;
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all .25s;
+                    -webkit-transition: all .25s;
+                    -moz-transition: all .25s;
+                    -ms-transition: all .25s;
+                    -o-transition: all .25s;
+
+                    &:hover {
+                        background-color: rgba($color: #000000, $alpha: 1);
+                    }
+
+                    .icons_search {
+                        font-size: 1rem;
+                        color: #fff;
+                    }
+                }
+            }
+        }
+
+        .wrapper_options {
+            flex: 0 0 200px;
+
+            ul {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                align-items: center;
+
+                li {
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    list-style: none;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    text-transform: uppercase;
+                    margin: 0 20px;
+                    transition: all .25s;
+
+                    &:first-child {
+                        position: relative
+                    }
+
+                    &:first-child {
+                        &:after {
+                            cursor: default;
+                            content: "";
+                            position: absolute;
+                            right: -20px;
+                            width: 2px;
+                            height: 80%;
+                            top: 50%;
+                            bottom: 0;
+                            background-color: #999;
+                            transform: translateY(-50%);
+                            -webkit-transform: translateY(-50%);
+                            -moz-transform: translateY(-50%);
+                            -ms-transform: translateY(-50%);
+                            -o-transform: translateY(-50%);
+                            border-radius: 4px;
+                            -webkit-border-radius: 4px;
+                            -moz-border-radius: 4px;
+                            -ms-border-radius: 4px;
+                            -o-border-radius: 4px;
+                        }
+                    }
+
+                    &:hover {
+                        color: red
+                    }
+                }
+            }
+        }
+
+        .button_change_theme {
+            flex: 0 0 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .switch_theme {
+                font-size: 1.2rem;
+                font-weight: 600;
+            }
+        }
+    }
+}
