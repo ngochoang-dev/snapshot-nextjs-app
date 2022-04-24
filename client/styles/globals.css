@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,300;0,400;1,300;1,400&display=swap');
+
 html,
 body {
   padding: 0;
@@ -13,4 +16,54 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.wrapper_popover {
+  width: 178px;
+  font-family: 'Josefin Sans',
+    sans-serif;
+}
+
+.wrapper_popover ul {
+  padding: 0 24px 10px 24px;
+  margin-bottom: 0;
+  border-bottom: 1px solid gray;
+}
+
+.wrapper_popover ul li {
+  list-style: none;
+}
+
+.wrapper_popover ul li a {
+  display: block;
+  padding: 4px 0;
+}
+
+.wrapper_popover>p {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 10px 24px 0 19px;
+  margin-bottom: 0;
+  transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -ms-transition: all 0.25s;
+  -o-transition: all 0.25s;
+}
+
+.wrapper_popover>p span {
+  margin-left: 6px;
+  display: inline-block;
+}
+
+.wrapper_popover>p:hover {
+  color: tomato;
 }

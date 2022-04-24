@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../redux/data.interfaces'
 
 
-
 const Gallery: NextPage = () => {
     const dataArr = useSelector((state: AppState) => state.dataSnapshot);
 
@@ -29,7 +28,7 @@ const Gallery: NextPage = () => {
                                             borderRadius: 4
                                         }}
                                         src={link}
-                                        alt="Picture of the author"
+                                        alt={id?.toString()}
                                         width={500}
                                         height={450}
                                     />

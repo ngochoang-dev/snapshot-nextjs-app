@@ -21,4 +21,4 @@ export const makeStore = (context: Context) => {
 };
 
 
-export const wrapper = createWrapper<Store<AppState>>(makeStore, { debug: true });
+export const wrapper = createWrapper<Store<AppState>>(makeStore, { debug: false });

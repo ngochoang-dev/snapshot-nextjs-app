@@ -14,13 +14,13 @@ function* getSnapshot({ payload }:
         yield put({ type: ActionType.GET_SNAPSHOT_SUCCESS, payload: res.data })
     } catch (error) {
         console.log(error);
-
     }
 }
 
+
 function* rootSaga(): Generator {
     yield all([
-        takeEvery(ActionType.GET_SNAPSHOT, getSnapshot)
+        takeEvery(ActionType.GET_SNAPSHOT, getSnapshot),
     ])
 }
 

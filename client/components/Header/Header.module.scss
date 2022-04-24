@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
-
 .container {
     box-shadow: 0 0 0 2px rgba($color: #000, $alpha: .1);
 
@@ -11,6 +9,7 @@
         justify-content: space-between;
         max-width: 1024px;
         margin: 0 auto;
+        height: 100px;
 
         .logo {
             h1 {
@@ -28,7 +27,9 @@
         .wrapper_search {
             flex: 1;
             display: flex;
+            align-items: center;
             justify-content: center;
+            position: relative;
 
             .search {
                 width: 80%;
@@ -43,7 +44,7 @@
                 -o-border-radius: 6px;
                 background-color: rgba($color: #000, $alpha: .05);
                 box-shadow: 0 0 0 1px rgba($color: #000, $alpha: .6);
-                overflow: hidden;
+                position: relative;
 
                 input {
                     border: none;
@@ -69,6 +70,8 @@
                     -moz-transition: all .25s;
                     -ms-transition: all .25s;
                     -o-transition: all .25s;
+                    border-top-right-radius: 6px;
+                    border-bottom-right-radius: 6px;
 
                     &:hover {
                         background-color: rgba($color: #000000, $alpha: 1);
@@ -78,6 +81,31 @@
                         font-size: 1rem;
                         color: #fff;
                     }
+                }
+
+                span {
+                    display: block;
+                    margin-right: 10px;
+                    cursor: pointer;
+                    font-family: "Josefin Sans",
+                        Helvetica,
+                        Arial,
+                        sans-serif;
+                    font-size: .9rem;
+                }
+            }
+
+            ul {
+                margin: 6px 4px 0 4px;
+                padding: 0;
+                display: flex;
+                align-items: center;
+                position: absolute;
+                top: 100%;
+                left: 0;
+
+                li {
+                    list-style: none;
                 }
             }
         }
@@ -135,6 +163,26 @@
                     }
                 }
             }
+        }
+
+        .wrapper_user {
+            display: flex;
+            align-items: center;
+
+            span {
+                cursor: pointer;
+            }
+
+            p {
+                font-size: 1rem;
+                margin: 0;
+                margin-left: 10px;
+                margin-top: 6px;
+                font-weight: 600;
+                font-family: 'Josefin Sans',
+                    sans-serif;
+            }
+
         }
 
         .button_change_theme {

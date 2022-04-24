@@ -8,3 +8,4 @@ export const getSnapshot = (payload: string | string[] | undefined): FetchedData
     }
 }
 
+
