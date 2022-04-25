@@ -6,10 +6,7 @@ import { ActionType } from './types';
 const initState: AppState = {
     loading: false,
     dataSnapshot: [],
-    user: {
-        userId: null,
-        userName: null,
-    }
+    isSignup: false,
 }
 
 
@@ -24,6 +21,14 @@ const reducer = (
 
         case ActionType.GET_SNAPSHOT_SUCCESS: {
             return { ...state, dataSnapshot: action.payload.data }
+        }
+
+        case ActionType.ACTION_SIGNUP_SUCCESS: {
+            return { ...state, isSignup: true }
+        }
+
+        case ActionType.ACTION_SIGNUP_FAIL: {
+            return { ...state, isSignup: false }
         }
 
         default:

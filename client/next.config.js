@@ -27,6 +27,15 @@ const nextConfig = {
       'farm0.staticflickr.com',
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/mountain',
+        permanent: true,
+      },
+    ]
+  },
   env: {
     URL: 'http://localhost:5000',
   },

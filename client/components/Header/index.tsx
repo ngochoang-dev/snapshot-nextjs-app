@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Avatar, Popover } from 'antd';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 import styles from './Header.module.scss';
 import { getSnapshot } from '../../redux/actions';
@@ -27,8 +27,6 @@ const Header: NextPage = () => {
         router.push(`/${value}`, undefined, { shallow: true });
         category && setSearchValue(category)
     }
-
-
 
     return (
         <div className={clsx(

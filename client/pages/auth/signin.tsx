@@ -1,34 +1,87 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import { ChangeEvent } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { AiFillGithub, AiFillMail } from 'react-icons/ai';
-import { Avatar, Checkbox, Button } from 'antd';
+import { Avatar, Checkbox, Button, message, Spin } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react';
+import * as Yup from 'yup';
 
 import styles from '../../styles/Auth.module.scss';
+import { UserInfo } from '../../interfaces';
+
+const infoSchema = Yup.object().shape({
+    username: Yup.string().required(),
+    password: Yup.string().required(),
+})
 
 const Singin: NextPage = () => {
+    const router = useRouter();
+    const { status } = useSession();
     const [showPass, setShowPass] = useState<boolean>(true);
+    const [info, setInfo] = useState<UserInfo>({
+        username: "",
+        password: "",
+    });
+    const [loading, setLoading] = useState<boolean>(false);
 
     const handleCheck = () => {
 
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
+        setLoading(true);
+        const inValid = await infoSchema.isValid(info, { abortEarly: false });
+        if (!inValid) {
+            setLoading(false);
+            return message.error('Form invalid!');
+        }
 
+        const res: any = await signIn('credentials', {
+            redirect: false,
+            ...info,
+            callbackUrl: 'http://localhost:3000',
+        });
+        if (res?.error) {
+            message.error(res?.error);
+            setLoading(false);
+        } else {
+            router.push('/')
+            setLoading(false);
+        }
+    }
+
+    const handleChangeInput = (e: ChangeEvent<HTMLInputElement>): void => {
+        setInfo({
+            ...info,
+            [e.target.name]: e.target.value
+        });
     }
 
     const handleSigninGithub = async () => {
+        setLoading(true);
         await signIn('github', {
-            callbackUrl: 'http://localhost:3000/cat',
+            callbackUrl: 'http://localhost:3000',
         })
     }
 
     const handleSigninGoogle = async () => {
+        setLoading(true);
         await signIn('google', {
-            callbackUrl: 'http://localhost:3000/dog',
+            callbackUrl: 'http://localhost:3000',
         })
+    }
+
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push('/')
+        }
+    }, []);
+
+    if (status !== "unauthenticated") {
+        return null
     }
 
 
@@ -36,6 +89,9 @@ const Singin: NextPage = () => {
         <div className={clsx(
             styles.container
         )}>
+            {loading && <div className={clsx(
+                styles.overlay
+            )}> <Spin spinning={loading} delay={500} size="large" /></div>}
             <div className={clsx(
                 styles.wrapper_form
             )}>
@@ -54,13 +110,23 @@ const Singin: NextPage = () => {
                     <div className={clsx(
                         styles.form_group
                     )}>
-                        <input type="text" id='userName' name='userName' placeholder=" " autoComplete='off' />
-                        <label className={clsx(styles.label)} htmlFor="userName">Name</label>
+                        <input type="text"
+                            id='username' name='username'
+                            placeholder=" " autoComplete='off'
+                            value={info.username}
+                            onChange={(e) => handleChangeInput(e)}
+                        />
+                        <label className={clsx(styles.label)} htmlFor="username">Name</label>
                     </div>
                     <div className={clsx(
                         styles.form_group
                     )}>
-                        <input type="password" id='password' name='password' placeholder=" " autoComplete='off' />
+                        <input type={showPass ? 'password' : 'text'}
+                            id='password' name='password'
+                            placeholder=" " autoComplete='off'
+                            value={info.password}
+                            onChange={(e) => handleChangeInput(e)}
+                        />
                         <label className={clsx(styles.label)} htmlFor="password">Password</label>
                         {
                             showPass ? (
@@ -99,4 +165,5 @@ const Singin: NextPage = () => {
     )
 }
 
-export default Singin
+export default Singin;
+
