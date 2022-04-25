@@ -28,6 +28,9 @@ const Header: NextPage = () => {
         category && setSearchValue(category)
     }
 
+    console.log(session);
+
+
     return (
         <div className={clsx(
             styles.container
@@ -111,6 +114,11 @@ const Header: NextPage = () => {
                                             <li>
                                                 <Link href='/me/upload'>
                                                     <a>Upload photo</a>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href='/me/snapshot'>
+                                                    <a>My snapshot</a>
                                                 </Link>
                                             </li>
                                         </ul>

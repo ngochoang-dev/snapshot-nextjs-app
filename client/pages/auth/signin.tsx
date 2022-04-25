@@ -9,7 +9,7 @@ import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { signIn, useSession } from 'next-auth/react';
 import * as Yup from 'yup';
 
-import styles from '../../styles/Auth.module.scss';
+import styles from './Auth.module.scss';
 import { UserInfo } from '../../interfaces';
 
 const infoSchema = Yup.object().shape({
@@ -78,11 +78,15 @@ const Singin: NextPage = () => {
         if (status === "authenticated") {
             router.push('/')
         }
-    }, []);
+    }, [status]);
+    console.log(status);
 
     if (status !== "unauthenticated") {
         return null
     }
+
+
+
 
 
     return (

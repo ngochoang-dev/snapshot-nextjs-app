@@ -31,10 +31,11 @@ export default NextAuth({
                         data: payload
                     });
                     if (user) {
-                        const { username } = user.data.user
+                        const { username, id } = user.data.user
                         return {
                             name: username,
-                            image: 'https://joeschmoe.io/api/v1/random'
+                            image: 'https://joeschmoe.io/api/v1/random',
+                            id: id
                         }
                     }
                 } catch (error: any) {
@@ -49,6 +50,15 @@ export default NextAuth({
     secret: process.env.JWT_SECRET,
     pages: {
         signIn: '/auth/signin',
+    },
+
+    callbacks: {
+        async session({ session, token, user }) {
+            console.log("user", token);
+
+            session.id = token.sub
+            return Promise.resolve(session)
+        },
     },
     debug: process.env.NODE_ENV === 'development',
 });

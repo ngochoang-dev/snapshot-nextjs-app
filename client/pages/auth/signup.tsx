@@ -8,7 +8,7 @@ import * as Yup from 'yup';
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
-import styles from '../../styles/Auth.module.scss';
+import styles from './Auth.module.scss';
 import { UserInfo } from '../../interfaces'
 import { actionSignup } from '../../redux/actions';
 import { AppState } from '../../redux/data.interfaces'
@@ -81,7 +81,7 @@ const Singup: NextPage = () => {
         if (status !== "unauthenticated") {
             router.push('/moutain')
         }
-    }, []);
+    }, [status]);
 
     if (status !== "unauthenticated") {
         return null

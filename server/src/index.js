@@ -97,7 +97,8 @@ app.get('/account/signin', (req, res) => {
                     return res.status(200).json({
                         success: true,
                         user: {
-                            username: user.username
+                            username: user.username,
+                            id: user._id
                         }
                     })
                 }

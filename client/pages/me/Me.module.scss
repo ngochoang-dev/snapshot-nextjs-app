@@ -1,0 +1,47 @@
+.container {
+    max-width: 1024px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.wrapper,
+.wrapper_upload {
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2);
+    height: calc(100vh - 120px);
+    padding: 20px;
+    margin: 10px;
+    flex: 1;
+}
+
+.wrapper_upload {
+
+    .input_btn {
+        display: flex;
+        justify-content: space-between;
+
+        .input {
+            border-bottom: 1px solid gray;
+            width: fit-content;
+            margin: 10px 0;
+        }
+    }
+
+
+
+    .upload {
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+
+        >span {
+            width: fit-content;
+        }
+    }
+
+
+}
