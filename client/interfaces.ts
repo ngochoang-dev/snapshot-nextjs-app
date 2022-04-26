@@ -3,3 +3,12 @@ export interface UserInfo {
     password: string;
     confirmPassword?: string;
 }
+
+export interface SnapShot {
+    link: string;
+}
+export interface DataUpload {
+    uploaderId: any,
+    category: string,
+    data: SnapShot[]
+}

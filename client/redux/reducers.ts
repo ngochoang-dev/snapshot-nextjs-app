@@ -7,6 +7,9 @@ const initState: AppState = {
     loading: false,
     dataSnapshot: [],
     isSignup: false,
+    isUploadSuccess: false,
+    isUploadFail: false,
+    isRemove: false,
 }
 
 
@@ -29,6 +32,48 @@ const reducer = (
 
         case ActionType.ACTION_SIGNUP_FAIL: {
             return { ...state, isSignup: false }
+        }
+
+        case ActionType.UPLOAD_SNAPSHOT_LOADING: {
+            return {
+                ...state, loading: true,
+                isUploadSuccess: false,
+                isUploadFail: false
+            }
+        }
+
+        case ActionType.UPLOAD_SNAPSHOT_SUCCESS: {
+            return {
+                ...state, loading: false,
+                isUploadSuccess: true,
+                isUploadFail: false
+            }
+        }
+
+        case ActionType.UPLOAD_SNAPSHOT_FAIL: {
+            return {
+                ...state, loading: false,
+                isUploadSuccess: false,
+                isUploadFail: true
+            }
+        }
+
+        case ActionType.REMOVE_SNAPSHOT_LOADING: {
+            return {
+                ...state, isRemove: true,
+            }
+        }
+
+        case ActionType.REMOVE_SNAPSHOT_SUCCESS: {
+            return {
+                ...state, isRemove: false,
+            }
+        }
+
+        case ActionType.REMOVE_SNAPSHOT_FAIL: {
+            return {
+                ...state, isRemove: false,
+            }
         }
 
         default:

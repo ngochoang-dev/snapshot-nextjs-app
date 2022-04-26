@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: [
+      'res.cloudinary.com',
       'farm66.staticflickr.com',
       'farm20.staticflickr.com',
       'farm19.staticflickr.com',

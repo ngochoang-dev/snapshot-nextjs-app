@@ -19,11 +19,21 @@
             margin: 10px 0;
 
             a {
+                color: #333;
                 display: block;
                 font-size: 1rem;
                 padding: 4px 0;
                 font-family: 'Josefin Sans',
                     sans-serif;
+                transition: all 0.25s;
+                -webkit-transition: all 0.25s;
+                -moz-transition: all 0.25s;
+                -ms-transition: all 0.25s;
+                -o-transition: all 0.25s;
+
+                &:hover {
+                    color: #40a9ff;
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import Head from 'next/head';
 import clsx from 'clsx';
 import { ChangeEvent } from 'react';
 import { NextPage } from 'next';
@@ -11,6 +12,7 @@ import * as Yup from 'yup';
 
 import styles from './Auth.module.scss';
 import { UserInfo } from '../../interfaces';
+import Loading from '../../components/Loading';
 
 const infoSchema = Yup.object().shape({
     username: Yup.string().required(),
@@ -79,23 +81,22 @@ const Singin: NextPage = () => {
             router.push('/')
         }
     }, [status]);
-    console.log(status);
 
     if (status !== "unauthenticated") {
         return null
     }
 
 
-
-
-
     return (
         <div className={clsx(
             styles.container
         )}>
-            {loading && <div className={clsx(
-                styles.overlay
-            )}> <Spin spinning={loading} delay={500} size="large" /></div>}
+            <Head>
+                <title>Snapshot Singin</title>
+                <meta name="description" content="snapshot" />
+                <link rel="icon" href="/favicon.ico" />\
+            </Head>
+            {loading && <Loading loading={loading} />}
             <div className={clsx(
                 styles.wrapper_form
             )}>

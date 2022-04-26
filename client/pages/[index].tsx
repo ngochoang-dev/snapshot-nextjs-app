@@ -1,16 +1,15 @@
-import type { NextPage } from 'next'
-import Head from 'next/head'
-import { wrapper } from '../redux/store'
-import { useDispatch, useSelector } from 'react-redux'
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { wrapper } from '../redux/store';
 import { END } from 'redux-saga';
 import styles from '../styles/Home.module.scss'
 import Gallery from '../components/Gallery'
 import { getSnapshot } from '../redux/actions';
+import { SagaStore } from '../redux/store'
 
 
 
 const Home: NextPage = () => {
-
   return (
     <div className={styles.container}>
       <Head>
@@ -28,5 +27,6 @@ export default Home;
 export const getServerSideProps = wrapper.getServerSideProps(store => async ({ params }): Promise<any> => {
   store.dispatch(getSnapshot(params?.index));
   store.dispatch(END);
-  await store.sagaTask?.toPromise();
+  await (store as SagaStore).sagaTask?.toPromise();
+
 });

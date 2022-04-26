@@ -1,11 +1,18 @@
 import type { NextPage } from 'next';
+import Head from 'next/head'
+
 import { useState, ChangeEvent, useEffect } from 'react';
 import clsx from "clsx";
-import { Upload, Modal, Input, Button } from 'antd';
+import { Upload, Input, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { useSession } from 'next-auth/react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Me.module.scss';
-import SideBar from '../../components/SideBar'
+import SideBar from '../../components/SideBar';
+import { uploadSnapshot } from '../../redux/actions';
+import { SnapShot } from '../../interfaces';
+import { AppState } from '../../redux/data.interfaces';
 
 function getBase64(file: any) {
     return new Promise((resolve, reject) => {
@@ -17,9 +24,13 @@ function getBase64(file: any) {
 }
 
 const UploadSnapshot: NextPage = () => {
-    const [previewVisible, setPreviewVisible] = useState<boolean>(false);
-    const [previewImage, setPreviewImage] = useState<string>("");
-    const [previewTitle, setPreviewTitle] = useState<string>("");
+    const dispatch = useDispatch();
+    const { data: session } = useSession();
+    const { loading,
+        isUploadSuccess,
+        isUploadFail } = useSelector((state: AppState) => state)
+
+
     const [category, setCategory] = useState<string>("");
     const [fileList, setFileList] = useState<any>([]);
     const [disabled, setDisabled] = useState<boolean>(true);
@@ -31,16 +42,6 @@ const UploadSnapshot: NextPage = () => {
         </div>
     );
 
-    const handleCancel = () => setPreviewVisible(false);
-
-    const handlePreview = async (file: any) => {
-        if (!file.url && !file.preview) {
-            file.preview = await getBase64(file.originFileObj);
-        }
-        setPreviewImage(file.url || file.preview);
-        setPreviewVisible(true);
-        setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1))
-    };
 
     const handleChange = ({ fileList }: { fileList: any }) => setFileList(fileList);
 
@@ -49,63 +50,94 @@ const UploadSnapshot: NextPage = () => {
     }
 
     const handleSubmit = () => {
-        const data = fileList.map(({ name, thumbUrl }: { name: string, thumbUrl: string }) => {
-            return { name: name, thumbUrl: thumbUrl }
+        const data: SnapShot[] = fileList.map(({ thumbUrl }: { name: string, thumbUrl: string }) => {
+            return {
+                link: thumbUrl
+            }
         });
-
         console.log(data);
 
-
+        const uploadData = {
+            uploaderId: session?.id,
+            category: category,
+            data: data
+        }
+        dispatch(uploadSnapshot(uploadData));
     }
 
     useEffect(() => {
         fileList.length > 0 && category ? setDisabled(false) : setDisabled(true);
         return () => setDisabled(false)
-    }, [fileList, category])
+    }, [fileList, category]);
+
+    useEffect(() => {
+        if (!loading) {
+            setCategory("");
+            setFileList([]);
+        }
+    }, [loading]);
+
+    useEffect(() => {
+        isUploadSuccess && message.success("Upload Successfully")
+    }, [isUploadSuccess,]);
+
+    useEffect(() => {
+        isUploadFail && message.error("Upload Failed")
+    }, [])
+
+    useEffect(() => {
+        return () => {
+            setCategory("");
+            setFileList([]);
+        }
+    }, []);
+
 
     return (
         <div className={clsx(
             styles.container
         )}>
+            <Head>
+                <title>Upload</title>
+                <meta name="description" content="snapshot" />
+                <link rel="icon" href="/favicon.ico" />\
+            </Head>
             <SideBar />
             <div className={clsx(
                 styles.wrapper_upload
             )}>
                 <div className={clsx(
-                    styles.input_btn
+                    styles.input
                 )}>
-                    <div className={clsx(
-                        styles.input
-                    )}>
-                        <Input placeholder="Category" bordered={false} maxLength={20} onChange={onChange} />
-                    </div>
-                    <div className={clsx(
-                        styles.btn
-                    )}>
-                        <Button type="primary" disabled={disabled} onClick={handleSubmit}>Save</Button>
-                    </div>
+                    <Input showCount placeholder="Category" bordered={false}
+                        maxLength={20} onChange={onChange} value={category}
+                        disabled={loading}
+                    />
                 </div>
                 <div className={clsx(
                     styles.upload
                 )}>
                     <Upload
-                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        accept="image/*"
                         listType="picture-card"
                         fileList={fileList}
                         // multiple={true}
-                        onPreview={handlePreview}
+                        beforeUpload={() => false}
+                        disabled={loading}
+                        onPreview={() => null}
                         onChange={handleChange}
                     >
                         {fileList.length >= 8 ? null : uploadButton}
                     </Upload>
-                    <Modal
-                        visible={previewVisible}
-                        title={previewTitle}
-                        footer={null}
-                        onCancel={handleCancel}
-                    >
-                        <img alt="example" style={{ width: '100%' }} src={previewImage} />
-                    </Modal>
+                </div>
+                <div className={clsx(
+                    styles.btn
+                )}>
+                    <Button type="primary"
+                        disabled={disabled}
+                        onClick={handleSubmit}
+                        loading={loading}
+                    >Save</Button>
                 </div>
             </div>
         </div >

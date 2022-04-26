@@ -1,9 +1,14 @@
 import { call, all, put, takeEvery } from 'redux-saga/effects';
 import { AxiosResponse } from 'axios';
 import { ActionType } from './types';
-import { handleGetSnapshot, handleSignup } from './services';
 import { DataSnapshot } from './data.interfaces';
-import { UserInfo } from '../interfaces';
+import { UserInfo, DataUpload } from '../interfaces';
+import {
+    handleGetSnapshot,
+    handleSignup,
+    handleUploadSnapshot,
+    handleRemoveSnapshot
+} from './services';
 
 function* getSnapshot({ payload }:
     {
@@ -28,6 +33,32 @@ function* actionSignup({ payload }: {
     } catch (error) {
         yield put({ type: ActionType.ACTION_SIGNUP_FAIL })
     }
+}
+
+function* uploadSnapshot({ payload }: {
+    type: ActionType.UPLOAD_SNAPSHOT,
+    payload: DataUpload
+}) {
+    try {
+        yield put({ type: ActionType.UPLOAD_SNAPSHOT_LOADING })
+        const res: AxiosResponse = yield call(handleUploadSnapshot, payload)
+        yield put({ type: ActionType.UPLOAD_SNAPSHOT_SUCCESS })
+    } catch (error) {
+        yield put({ type: ActionType.UPLOAD_SNAPSHOT_FAIL })
+    }
+}
+
+function* removeSnapshot({ payload }: {
+    type: ActionType.REMOVE_SNAPSHOT,
+    payload: string
+}) {
+    try {
+        yield put({ type: ActionType.REMOVE_SNAPSHOT_LOADING })
+        const res: AxiosResponse = yield call(handleRemoveSnapshot, payload)
+        yield put({ type: ActionType.REMOVE_SNAPSHOT_SUCCESS })
+    } catch (error) {
+        yield put({ type: ActionType.REMOVE_SNAPSHOT_FAIL })
+    }
 
 }
 
@@ -36,6 +67,8 @@ function* rootSaga(): Generator {
     yield all([
         takeEvery(ActionType.GET_SNAPSHOT, getSnapshot),
         takeEvery(ActionType.ACTION_SIGNUP, actionSignup),
+        takeEvery(ActionType.UPLOAD_SNAPSHOT, uploadSnapshot),
+        takeEvery(ActionType.REMOVE_SNAPSHOT, removeSnapshot)
     ])
 }
 

@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const Snapshot = new Schema({
-    uploaderId: { type: Number, required: true },
-    categoryId: { type: String, required: true },
+    uploaderId: { type: String || Number, required: true },
+    category: { type: String, required: true },
     link: { type: String, required: true },
 }, {
     timestamps: true,

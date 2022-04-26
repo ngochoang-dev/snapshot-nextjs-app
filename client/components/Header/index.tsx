@@ -28,9 +28,6 @@ const Header: NextPage = () => {
         category && setSearchValue(category)
     }
 
-    console.log(session);
-
-
     return (
         <div className={clsx(
             styles.container
@@ -41,7 +38,9 @@ const Header: NextPage = () => {
                 <div className={clsx(
                     styles.logo
                 )}>
-                    <h1>SnapShot</h1>
+                    <Link href="/mountain">
+                        <a><h1>SnapShot</h1></a>
+                    </Link>
                 </div>
                 <div className={clsx(
                     styles.wrapper_search

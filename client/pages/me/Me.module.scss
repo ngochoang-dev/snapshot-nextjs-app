@@ -20,18 +20,20 @@
 
 .wrapper_upload {
 
-    .input_btn {
-        display: flex;
-        justify-content: space-between;
+    .input {
+        width: 100%;
+        margin: 10px 0;
+        position: relative;
 
-        .input {
-            border-bottom: 1px solid gray;
-            width: fit-content;
-            margin: 10px 0;
+        &:after {
+            content: '';
+            position: absolute;
+            left: 10px;
+            bottom: 0;
+            right: 10px;
+            box-shadow: 0 0 1px .2px #000;
         }
     }
-
-
 
     .upload {
         margin-top: 50px;
@@ -41,6 +43,11 @@
         >span {
             width: fit-content;
         }
+    }
+
+    .btn {
+        margin-top: 20px;
+
     }
 
 

@@ -1,4 +1,5 @@
 import { useState, ChangeEvent, useEffect } from 'react';
+import Head from 'next/head';
 import clsx from 'clsx';
 import { NextPage } from 'next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +10,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import styles from './Auth.module.scss';
+import Loading from '../../components/Loading'
 import { UserInfo } from '../../interfaces'
 import { actionSignup } from '../../redux/actions';
 import { AppState } from '../../redux/data.interfaces'
@@ -91,9 +93,12 @@ const Singup: NextPage = () => {
         <div className={clsx(
             styles.container
         )}>
-            {loading && <div className={clsx(
-                styles.overlay
-            )}> <Spin spinning={loading} delay={500} size="large" /></div>}
+            <Head>
+                <title>Snapshot Singup</title>
+                <meta name="description" content="snapshot" />
+                <link rel="icon" href="/favicon.ico" />\
+            </Head>
+            {loading && <Loading loading={loading} />}
             <div className={clsx(
                 styles.wrapper_form
             )}>
