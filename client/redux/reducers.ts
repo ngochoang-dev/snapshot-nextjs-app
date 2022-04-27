@@ -22,8 +22,17 @@ const reducer = (
             return { ...state, ...action.payload }
         }
 
+        case ActionType.GET_SNAPSHOT_LOADING: {
+            return { ...state, loading: true }
+        }
+
         case ActionType.GET_SNAPSHOT_SUCCESS: {
-            return { ...state, dataSnapshot: action.payload.data }
+            return { ...state, dataSnapshot: action.payload.data, loading: false }
+        }
+
+        case ActionType.GET_SNAPSHOT_FAIL: {
+            return { ...state, loading: false, dataSnapshot: [] }
+
         }
 
         case ActionType.ACTION_SIGNUP_SUCCESS: {
@@ -60,19 +69,19 @@ const reducer = (
 
         case ActionType.REMOVE_SNAPSHOT_LOADING: {
             return {
-                ...state, isRemove: true,
+                ...state, isRemove: true, loading: true,
             }
         }
 
         case ActionType.REMOVE_SNAPSHOT_SUCCESS: {
             return {
-                ...state, isRemove: false,
+                ...state, isRemove: false, loading: false,
             }
         }
 
         case ActionType.REMOVE_SNAPSHOT_FAIL: {
             return {
-                ...state, isRemove: false,
+                ...state, isRemove: false, loading: false,
             }
         }
 

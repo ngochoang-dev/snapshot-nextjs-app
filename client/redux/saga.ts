@@ -16,10 +16,13 @@ function* getSnapshot({ payload }:
         payload: string | string[] | undefined
     }) {
     try {
+        yield put({ type: ActionType.GET_SNAPSHOT_LOADING })
         const res: AxiosResponse<DataSnapshot[]> = yield call(handleGetSnapshot, payload);
         yield put({ type: ActionType.GET_SNAPSHOT_SUCCESS, payload: res.data })
     } catch (error) {
-        console.log(error);
+        console.log(error.response);
+
+        yield put({ type: ActionType.GET_SNAPSHOT_FAIL })
     }
 }
 

@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 
 import styles from './Gallery.module.scss';
 import { AppState } from '../../redux/data.interfaces';
-import { removeSnapshot } from '../../redux/actions';
+import { removeSnapshot, getSnapshot } from '../../redux/actions';
 import Loading from '../Loading';
 
 
@@ -18,9 +18,10 @@ const { confirm } = Modal;
 
 const Gallery: NextPage = () => {
     const router = useRouter();
+    const { query: { index } } = router;
     const dispatch = useDispatch();
     const { data: session } = useSession();
-    const { dataSnapshot: dataArr, isRemove } = useSelector((state: AppState) => state);
+    const { dataSnapshot: dataArr, isRemove, loading } = useSelector((state: AppState) => state);
 
     const handleRemove = (id: any) => {
         dispatch(removeSnapshot(id))
@@ -42,16 +43,16 @@ const Gallery: NextPage = () => {
 
     useEffect(() => {
         if (isRemove) {
-            router.push(`/${router.query.index}`);
+            dispatch(getSnapshot(index));
         }
-    }, [isRemove])
+    }, [isRemove]);
 
 
     return (
         <div className={clsx(
             styles.container
         )}>
-            {isRemove && <Loading loading={isRemove} />}
+            {loading && <Loading loading={loading} />}
             <Row gutter={[20, 20]}>
                 {
                     dataArr && dataArr.map(({ id, link, photoId }, i) => {

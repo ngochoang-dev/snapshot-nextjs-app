@@ -5,8 +5,17 @@ export interface FetchedDataSnapshot {
     payload: string | string[] | undefined
 }
 
+export interface FetchedDataSnapshotLoading {
+    type: typeof ActionType.GET_SNAPSHOT_LOADING,
+}
+
 export interface FetchedDataSnapshotSuccess {
     type: typeof ActionType.GET_SNAPSHOT_SUCCESS,
+    payload: any
+}
+
+export interface FetchedDataSnapshotFail {
+    type: typeof ActionType.GET_SNAPSHOT_FAIL,
     payload: any
 }
 
@@ -64,7 +73,9 @@ export interface FetchedRemoveSnapshotFail {
 
 
 export type Action =
+    FetchedDataSnapshotLoading |
     FetchedDataSnapshot |
+    FetchedDataSnapshotFail |
     FetchedDataSnapshotSuccess |
     FetchedActionSignupSuccess |
     FetchedActionSignupFail |

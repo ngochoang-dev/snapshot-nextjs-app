@@ -27,8 +27,6 @@ const User = require('./models/User');
 // GET 
 app.get('/:query', async (req, res) => {
     const { query } = req.params;
-    let result;
-
 
     Promise.all([
         axios.get(`${process.env.FLICKR_API}=${process.env.FLICKR_API_KEY}&tags=${query}&per_page=24&format=json&nojsoncallback=1`),
@@ -58,7 +56,8 @@ app.get('/:query', async (req, res) => {
             console.log(error);
             return res.status(500).json({
                 success: false,
-                message: 'Fail'
+                message: 'Fail',
+                error: error
             })
         })
 

@@ -5,7 +5,7 @@ import { useState, ChangeEvent, useEffect } from 'react';
 import clsx from "clsx";
 import { Upload, Input, Button, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import { useSession } from 'next-auth/react';
+import { useSession, getSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './Me.module.scss';
@@ -13,6 +13,7 @@ import SideBar from '../../components/SideBar';
 import { uploadSnapshot } from '../../redux/actions';
 import { SnapShot } from '../../interfaces';
 import { AppState } from '../../redux/data.interfaces';
+import { wrapper } from '../../redux/store';
 
 
 const UploadSnapshot: NextPage = () => {
@@ -89,7 +90,7 @@ const UploadSnapshot: NextPage = () => {
             <Head>
                 <title>Upload</title>
                 <meta name="description" content="snapshot" />
-                <link rel="icon" href="/favicon.ico" />\
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             <SideBar />
             <div className={clsx(
@@ -133,4 +134,19 @@ const UploadSnapshot: NextPage = () => {
     )
 }
 
-export default UploadSnapshot
+export default UploadSnapshot;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+    (store) => async ({ req, params }): Promise<any> => {
+        const session = await getSession({ req });
+
+        if (!session) {
+            return {
+                redirect: {
+                    destination: '/auth/signin',
+                    permanent: false,
+                },
+            };
+        }
+    }
+);

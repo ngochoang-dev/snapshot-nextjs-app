@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, message, Spin } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import * as Yup from 'yup';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, useSession, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
+import { wrapper } from '../../redux/store';
 import styles from './Auth.module.scss';
 import Loading from '../../components/Loading'
 import { UserInfo } from '../../interfaces'
@@ -96,7 +97,7 @@ const Singup: NextPage = () => {
             <Head>
                 <title>Snapshot Singup</title>
                 <meta name="description" content="snapshot" />
-                <link rel="icon" href="/favicon.ico" />\
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             {loading && <Loading loading={loading} />}
             <div className={clsx(
@@ -190,3 +191,18 @@ const Singup: NextPage = () => {
 }
 
 export default Singup;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+    (store) => async ({ req, params }): Promise<any> => {
+        const session = await getSession({ req });
+
+        if (session) {
+            return {
+                redirect: {
+                    destination: '/',
+                    permanent: false,
+                },
+            };
+        }
+    }
+);

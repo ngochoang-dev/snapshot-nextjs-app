@@ -98,7 +98,7 @@ const Singin: NextPage = () => {
             <Head>
                 <title>Snapshot Singin</title>
                 <meta name="description" content="snapshot" />
-                <link rel="icon" href="/favicon.ico" />\
+                <link rel="icon" href="/favicon.ico" />
             </Head>
             {loading && <Loading loading={loading} />}
             <div className={clsx(

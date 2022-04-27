@@ -49,11 +49,11 @@ const Header: NextPage = () => {
                             value={searchValue}
                             onChange={e => setSearchValue(e.target.value)}
                             onKeyDown={(e) => {
-                                e.key === 'Enter' && handleSearch()
+                                e.key === 'Enter' && searchValue && handleSearch()
                             }}
                         />
                         <button
-                            onClick={() => handleSearch()}
+                            onClick={() => searchValue && handleSearch()}
                         >
                             <IoSearch className={clsx(styles.icons_search)} />
                         </button>
