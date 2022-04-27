@@ -79,15 +79,15 @@ const Singup: NextPage = () => {
         }
     }, [isSignup]);
 
-    useEffect(() => {
-        if (status !== "unauthenticated") {
-            router.push('/moutain')
-        }
-    }, [status]);
+    // useEffect(() => {
+    //     if (status !== "unauthenticated") {
+    //         router.push('/moutain')
+    //     }
+    // }, [status]);
 
-    if (status !== "unauthenticated") {
-        return null
-    }
+    // if (status !== "unauthenticated") {
+    //     return null
+    // }
 
     return (
         <div className={clsx(

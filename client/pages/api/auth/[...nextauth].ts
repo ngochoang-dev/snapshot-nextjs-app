@@ -60,5 +60,6 @@ export default NextAuth({
             return Promise.resolve(session)
         },
     },
-    debug: process.env.NODE_ENV === 'development',
+    // debug: process.env.NODE_ENV === 'development',
+    debug: false,
 });

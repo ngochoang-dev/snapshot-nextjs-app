@@ -46,6 +46,7 @@ const Gallery: NextPage = () => {
         }
     }, [isRemove])
 
+
     return (
         <div className={clsx(
             styles.container

@@ -14,14 +14,6 @@ import { uploadSnapshot } from '../../redux/actions';
 import { SnapShot } from '../../interfaces';
 import { AppState } from '../../redux/data.interfaces';
 
-function getBase64(file: any) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
-        reader.onerror = (error) => reject(error);
-    });
-}
 
 const UploadSnapshot: NextPage = () => {
     const dispatch = useDispatch();
@@ -42,7 +34,6 @@ const UploadSnapshot: NextPage = () => {
         </div>
     );
 
-
     const handleChange = ({ fileList }: { fileList: any }) => setFileList(fileList);
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -55,8 +46,6 @@ const UploadSnapshot: NextPage = () => {
                 link: thumbUrl
             }
         });
-        console.log(data);
-
         const uploadData = {
             uploaderId: session?.id,
             category: category,

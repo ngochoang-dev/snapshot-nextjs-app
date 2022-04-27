@@ -11,19 +11,16 @@ import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { signOut, useSession } from "next-auth/react";
 
 import styles from './Header.module.scss';
-import { getSnapshot } from '../../redux/actions';
 
 const category = ["mountain", "beaches", "birds", "food", "shopping", "dog", "car"];
 
 const Header: NextPage = () => {
     const router = useRouter();
-    const dispatch = useDispatch();
     const { data: session, status } = useSession();
     const [searchValue, setSearchValue] = useState('');
 
     const handleSearch = (category?: string): void => {
         const value = category ? category : searchValue
-        dispatch(getSnapshot(value));
         router.push(`/${value}`, undefined, { shallow: true });
         category && setSearchValue(category)
     }
@@ -38,9 +35,7 @@ const Header: NextPage = () => {
                 <div className={clsx(
                     styles.logo
                 )}>
-                    <Link href="/mountain">
-                        <a><h1>SnapShot</h1></a>
-                    </Link>
+                    <h1 onClick={() => router.push("/mountain", undefined, { shallow: true })}>SnapShot</h1>
                 </div>
                 <div className={clsx(
                     styles.wrapper_search

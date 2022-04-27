@@ -9,10 +9,14 @@ import { Avatar, Checkbox, Button, message, Spin } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import { signIn, useSession } from 'next-auth/react';
 import * as Yup from 'yup';
+import { getSession } from "next-auth/react"
 
 import styles from './Auth.module.scss';
 import { UserInfo } from '../../interfaces';
 import Loading from '../../components/Loading';
+
+import { wrapper } from '../../redux/store';
+
 
 const infoSchema = Yup.object().shape({
     username: Yup.string().required(),
@@ -76,15 +80,15 @@ const Singin: NextPage = () => {
         })
     }
 
-    useEffect(() => {
-        if (status === "authenticated") {
-            router.push('/')
-        }
-    }, [status]);
+    // useEffect(() => {
+    //     if (status === "authenticated") {
+    //         router.push('/')
+    //     }
+    // }, [status]);
 
-    if (status !== "unauthenticated") {
-        return null
-    }
+    // if (status !== "unauthenticated") {
+    //     return null
+    // }
 
 
     return (
@@ -171,4 +175,19 @@ const Singin: NextPage = () => {
 }
 
 export default Singin;
+
+export const getServerSideProps = wrapper.getServerSideProps(
+    (store) => async ({ req, params }): Promise<any> => {
+        const session = await getSession({ req });
+
+        if (session) {
+            return {
+                redirect: {
+                    destination: '/',
+                    permanent: false,
+                },
+            };
+        }
+    }
+);
 
