@@ -22,8 +22,6 @@ app.use(bodyParser.urlencoded({
 const Snapshot = require('./models/Snapshot');
 const User = require('./models/User');
 
-
-
 // GET 
 app.get('/:query', async (req, res) => {
     const { query } = req.params;

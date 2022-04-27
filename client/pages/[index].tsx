@@ -13,6 +13,7 @@ import Gallery from '../components/Gallery'
 import { getSnapshot } from '../redux/actions';
 import { SagaStore } from '../redux/store';
 import { AppState } from '../redux/data.interfaces';
+import Loading from '../components/Loading';
 
 
 const Home: NextPage = () => {
@@ -34,6 +35,7 @@ const Home: NextPage = () => {
         <meta name="description" content="snapshot" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {router.isFallback && <Loading loading={router.isFallback} />}
       {
         data.length > 0 ?
           <Gallery /> :
@@ -50,9 +52,6 @@ const Home: NextPage = () => {
 export default Home;
 
 // export const getServerSideProps = wrapper.getServerSideProps(store => async ({ params }): Promise<any> => {
-
-//   console.log('actioin getServerSideProps');
-
 //   store.dispatch(getSnapshot(params?.index));
 //   store.dispatch(END);
 //   await (store as SagaStore).sagaTask?.toPromise();
@@ -91,4 +90,8 @@ export const getStaticProps = wrapper.getStaticProps(store => async ({ params })
   store.dispatch(getSnapshot(params?.index));
   store.dispatch(END);
   await (store as SagaStore).sagaTask?.toPromise();
+  return {
+    props: {},
+    revalidate: 10,
+  }
 });
