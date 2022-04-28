@@ -27,6 +27,8 @@ const reducer = (
         }
 
         case ActionType.GET_SNAPSHOT_SUCCESS: {
+            console.log(action.payload.data);
+
             return { ...state, dataSnapshot: action.payload.data, loading: false }
         }
 
@@ -69,13 +71,13 @@ const reducer = (
 
         case ActionType.REMOVE_SNAPSHOT_LOADING: {
             return {
-                ...state, isRemove: true, loading: true,
+                ...state, isRemove: false, loading: true,
             }
         }
 
         case ActionType.REMOVE_SNAPSHOT_SUCCESS: {
             return {
-                ...state, isRemove: false, loading: false,
+                ...state, isRemove: true, loading: false,
             }
         }
 

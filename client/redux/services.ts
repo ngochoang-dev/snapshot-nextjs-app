@@ -2,6 +2,8 @@ import axios from "axios";
 import { UserInfo, DataUpload } from '../interfaces';
 
 export const handleGetSnapshot = (payload: string | string[] | undefined) => {
+    console.log("handleGetSnapshot");
+
     return axios.get(`${process.env.URL}/${payload}`)
 }
 
