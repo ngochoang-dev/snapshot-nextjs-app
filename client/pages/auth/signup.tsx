@@ -17,7 +17,11 @@ import { actionSignup } from '../../redux/actions';
 import { AppState } from '../../redux/data.interfaces'
 import { ActionType } from '../../redux/types';
 
-const Singup: NextPage = () => {
+type IProps = {
+    previousRoute: string
+}
+
+const Singup: NextPage<IProps> = ({ previousRoute }) => {
     const dispatch = useDispatch();
     const router = useRouter();
     const isSignup = useSelector((state: AppState) => state.isSignup);
@@ -62,7 +66,7 @@ const Singup: NextPage = () => {
             const res: any = await signIn('credentials', {
                 redirect: false,
                 ...info,
-                callbackUrl: 'http://localhost:3000',
+                callbackUrl: previousRoute ? previousRoute : '/',
             });
             if (res?.error) {
                 message.error(res?.error);
@@ -77,7 +81,11 @@ const Singup: NextPage = () => {
             setLoading(false);
             dispatch({ type: ActionType.ACTION_SIGNUP_FAIL })
         }
-    }, [isSignup, dispatch, info, router]);
+    }, [isSignup,
+        dispatch,
+        info,
+        router,
+        previousRoute]);
 
 
     return (
@@ -185,6 +193,7 @@ export default Singup;
 export const getServerSideProps = wrapper.getServerSideProps(
     () => async ({ req, }): Promise<any> => {
         const session = await getSession({ req });
+        const previousRoute = req.headers.referer ? req.headers.referer : '';
 
         if (session) {
             return {
@@ -193,6 +202,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
                     permanent: false,
                 },
             };
+        }
+
+        return {
+            props: {
+                previousRoute
+            }
         }
     }
 );

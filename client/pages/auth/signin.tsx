@@ -14,16 +14,18 @@ import { getSession } from "next-auth/react"
 import styles from './Auth.module.scss';
 import { UserInfo } from '../../interfaces';
 import Loading from '../../components/Loading';
-
 import { wrapper } from '../../redux/store';
-
 
 const infoSchema = Yup.object().shape({
     username: Yup.string().required(),
     password: Yup.string().required(),
 })
 
-const Singin: NextPage = () => {
+type IProps = {
+    previousRoute: string
+}
+
+const Singin: NextPage<IProps> = ({ previousRoute }) => {
     const router = useRouter();
     const [showPass, setShowPass] = useState<boolean>(true);
     const [info, setInfo] = useState<UserInfo>({
@@ -47,7 +49,7 @@ const Singin: NextPage = () => {
         const res: any = await signIn('credentials', {
             redirect: false,
             ...info,
-            callbackUrl: 'http://localhost:3000',
+            callbackUrl: previousRoute ? previousRoute : '/',
         });
         if (res?.error) {
             message.error(res?.error);
@@ -68,27 +70,16 @@ const Singin: NextPage = () => {
     const handleSigninGithub = async () => {
         setLoading(true);
         await signIn('github', {
-            callbackUrl: 'http://localhost:3000',
+            callbackUrl: previousRoute ? previousRoute : '/',
         })
     }
 
     const handleSigninGoogle = async () => {
         setLoading(true);
         await signIn('google', {
-            callbackUrl: 'http://localhost:3000',
+            callbackUrl: previousRoute ? previousRoute : '/',
         })
     }
-
-    // useEffect(() => {
-    //     if (status === "authenticated") {
-    //         router.push('/')
-    //     }
-    // }, [status]);
-
-    // if (status !== "unauthenticated") {
-    //     return null
-    // }
-
 
     return (
         <div className={clsx(
@@ -178,6 +169,7 @@ export default Singin;
 export const getServerSideProps = wrapper.getServerSideProps(
     () => async ({ req }): Promise<any> => {
         const session = await getSession({ req });
+        const previousRoute = req.headers.referer ? req.headers.referer : '';
 
         if (session) {
             return {
@@ -186,6 +178,12 @@ export const getServerSideProps = wrapper.getServerSideProps(
                     permanent: false,
                 },
             };
+        }
+
+        return {
+            props: {
+                previousRoute
+            }
         }
     }
 );

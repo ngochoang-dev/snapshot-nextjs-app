@@ -51,11 +51,6 @@ const Home: NextPage = () => {
 
 export default Home;
 
-// export const getServerSideProps = wrapper.getServerSideProps(store => async ({ params }): Promise<any> => {
-//   store.dispatch(getSnapshot(params?.index));
-//   store.dispatch(END);
-//   await (store as SagaStore).sagaTask?.toPromise();
-// });
 
 export async function getStaticPaths() {
   return {
