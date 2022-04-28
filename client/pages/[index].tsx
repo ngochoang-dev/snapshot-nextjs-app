@@ -25,7 +25,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     dispatch(getSnapshot(index));
-  }, [index]);
+  }, [index, dispatch]);
 
 
   return (

@@ -30,7 +30,7 @@ const Profile: NextPage = () => {
 export default Profile;
 
 export const getServerSideProps = wrapper.getServerSideProps(
-    (store) => async ({ req, params }): Promise<any> => {
+    () => async ({ req, }): Promise<any> => {
         const session = await getSession({ req });
 
         if (!session) {

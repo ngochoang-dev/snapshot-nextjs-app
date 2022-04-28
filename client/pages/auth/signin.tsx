@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import clsx from 'clsx';
 import { ChangeEvent } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { AiFillGithub, AiFillMail } from 'react-icons/ai';
-import { Avatar, Checkbox, Button, message, Spin } from 'antd';
+import { Avatar, Checkbox, Button, message, } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn, } from 'next-auth/react';
 import * as Yup from 'yup';
 import { getSession } from "next-auth/react"
 
@@ -25,7 +25,6 @@ const infoSchema = Yup.object().shape({
 
 const Singin: NextPage = () => {
     const router = useRouter();
-    const { status } = useSession();
     const [showPass, setShowPass] = useState<boolean>(true);
     const [info, setInfo] = useState<UserInfo>({
         username: "",
@@ -177,7 +176,7 @@ const Singin: NextPage = () => {
 export default Singin;
 
 export const getServerSideProps = wrapper.getServerSideProps(
-    (store) => async ({ req, params }): Promise<any> => {
+    () => async ({ req }): Promise<any> => {
         const session = await getSession({ req });
 
         if (session) {

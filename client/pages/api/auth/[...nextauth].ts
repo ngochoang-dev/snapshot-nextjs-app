@@ -1,5 +1,5 @@
 import NextAuth from "next-auth";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from 'next-auth/providers/credentials';
@@ -53,7 +53,7 @@ export default NextAuth({
     },
 
     callbacks: {
-        async session({ session, token, user }) {
+        async session({ session, token }) {
             console.log("user", token);
 
             session.id = token.sub

@@ -45,7 +45,7 @@ const Gallery: NextPage = () => {
         if (isRemove) {
             dispatch(getSnapshot(index));
         }
-    }, [isRemove]);
+    }, [isRemove, dispatch, index]);
 
 
     return (

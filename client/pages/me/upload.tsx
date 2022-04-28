@@ -73,7 +73,7 @@ const UploadSnapshot: NextPage = () => {
 
     useEffect(() => {
         isUploadFail && message.error("Upload Failed")
-    }, [])
+    }, [isUploadFail])
 
     useEffect(() => {
         return () => {
@@ -137,7 +137,7 @@ const UploadSnapshot: NextPage = () => {
 export default UploadSnapshot;
 
 export const getServerSideProps = wrapper.getServerSideProps(
-    (store) => async ({ req, params }): Promise<any> => {
+    () => async ({ req }): Promise<any> => {
         const session = await getSession({ req });
 
         if (!session) {

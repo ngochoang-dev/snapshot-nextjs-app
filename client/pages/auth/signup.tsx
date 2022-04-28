@@ -3,10 +3,10 @@ import Head from 'next/head';
 import clsx from 'clsx';
 import { NextPage } from 'next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Button, message, Spin } from 'antd';
+import { Avatar, Button, message } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 import * as Yup from 'yup';
-import { signIn, useSession, getSession } from 'next-auth/react';
+import { signIn, getSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import { wrapper } from '../../redux/store';
@@ -20,7 +20,6 @@ import { ActionType } from '../../redux/types';
 const Singup: NextPage = () => {
     const dispatch = useDispatch();
     const router = useRouter();
-    const { status } = useSession();
     const isSignup = useSelector((state: AppState) => state.isSignup);
     const [showPass, setShowPass] = useState<boolean>(true);
     const [showCfPass, setShowCfPass] = useState<boolean>(true);
@@ -50,12 +49,12 @@ const Singup: NextPage = () => {
     const handleSignup = async () => {
         setLoading(true);
         const inValid = await infoSchema.isValid(info, { abortEarly: false });
-        const { confirmPassword, ...payload } = info
+        const { username, password } = info
         if (!inValid) {
             setLoading(false);
             return message.error('Form invalid!')
         }
-        dispatch(actionSignup(payload))
+        dispatch(actionSignup({ username, password }))
     }
 
     useEffect(() => {
@@ -78,17 +77,8 @@ const Singup: NextPage = () => {
             setLoading(false);
             dispatch({ type: ActionType.ACTION_SIGNUP_FAIL })
         }
-    }, [isSignup]);
+    }, [isSignup, dispatch, info, router]);
 
-    // useEffect(() => {
-    //     if (status !== "unauthenticated") {
-    //         router.push('/moutain')
-    //     }
-    // }, [status]);
-
-    // if (status !== "unauthenticated") {
-    //     return null
-    // }
 
     return (
         <div className={clsx(
@@ -193,7 +183,7 @@ const Singup: NextPage = () => {
 export default Singup;
 
 export const getServerSideProps = wrapper.getServerSideProps(
-    (store) => async ({ req, params }): Promise<any> => {
+    () => async ({ req, }): Promise<any> => {
         const session = await getSession({ req });
 
         if (session) {
