@@ -89,4 +89,4 @@ const Gallery: NextPage = () => {
     )
 }
 
-export default Gallery
+export default Gallery;

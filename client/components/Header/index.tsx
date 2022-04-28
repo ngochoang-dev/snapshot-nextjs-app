@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import type { NextPage } from 'next'
 import { IoSearch } from 'react-icons/io5';
 import { Switch } from 'antd';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Avatar, Popover } from 'antd';
@@ -20,7 +19,7 @@ const Header: NextPage = () => {
     const [searchValue, setSearchValue] = useState('');
 
     const handleSearch = (category?: string): void => {
-        const value = category ? category : searchValue
+        const value = category ? category : searchValue;
         router.push(`/${value}`, undefined, { shallow: true });
         category && setSearchValue(category)
     }
