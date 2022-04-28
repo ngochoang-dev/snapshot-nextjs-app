@@ -55,7 +55,7 @@ const Singin: NextPage<IProps> = ({ previousRoute }) => {
             message.error(res?.error);
             setLoading(false);
         } else {
-            router.push('/')
+            router.push(previousRoute ? previousRoute : '/')
             setLoading(false);
         }
     }

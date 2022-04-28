@@ -71,7 +71,7 @@ const Singup: NextPage<IProps> = ({ previousRoute }) => {
             if (res?.error) {
                 message.error(res?.error);
             } else {
-                router.push('/')
+                router.push(previousRoute ? previousRoute : '/')
             }
         }
         if (isSignup) {
