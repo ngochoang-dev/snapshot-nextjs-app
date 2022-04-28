@@ -1,13 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { GetServerSideProps } from 'next';
-
 import { useState, ChangeEvent, useEffect } from 'react';
 import clsx from "clsx";
 import { Upload, Input, Button, message } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
 import { useSession, getSession } from 'next-auth/react';
 import { useDispatch, useSelector } from 'react-redux';
+import { InboxOutlined } from '@ant-design/icons';
 
 import styles from './Me.module.scss';
 import SideBar from '../../components/SideBar';
@@ -16,6 +15,7 @@ import { SnapShot } from '../../interfaces';
 import { AppState } from '../../redux/data.interfaces';
 import { wrapper } from '../../redux/store';
 
+const { Dragger } = Upload;
 
 const UploadSnapshot: NextPage = () => {
     const dispatch = useDispatch();
@@ -27,14 +27,10 @@ const UploadSnapshot: NextPage = () => {
     const [fileList, setFileList] = useState<any>([]);
     const [disabled, setDisabled] = useState<boolean>(true);
 
-    const uploadButton = (
-        <div>
-            <PlusOutlined />
-            <div style={{ marginTop: 8 }}>Upload</div>
-        </div>
-    );
 
-    const handleChange = ({ fileList }: { fileList: any }) => setFileList(fileList);
+    const handleChange = ({ fileList }: { fileList: any }) => {
+        setFileList(fileList)
+    }
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         setCategory(e.target.value);
@@ -82,6 +78,25 @@ const UploadSnapshot: NextPage = () => {
     }, []);
 
 
+    useEffect(() => {
+        fileList.length === 8 && message.warn('Too limit image number ')
+    }, [fileList])
+
+
+    const props: any = {
+        accept: "image/*",
+        fileList: fileList,
+        disabled: loading,
+        name: 'file',
+        multiple: true,
+        listType: "picture",
+        maxCount: 8,
+        beforeUpload: () => false,
+        onChange(info: any) {
+            handleChange(info);
+        }
+    };
+
     return (
         <div className={clsx(
             styles.container
@@ -106,18 +121,16 @@ const UploadSnapshot: NextPage = () => {
                 <div className={clsx(
                     styles.upload
                 )}>
-                    <Upload
-                        accept="image/*"
-                        listType="picture-card"
-                        fileList={fileList}
-                        // multiple={true}
-                        beforeUpload={() => false}
-                        disabled={loading}
-                        onPreview={() => null}
-                        onChange={handleChange}
-                    >
-                        {fileList.length >= 8 ? null : uploadButton}
-                    </Upload>
+                    <Dragger {...props}>
+                        <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                        </p>
+                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                        <p className="ant-upload-hint">
+                            Support for a single or bulk upload. Strictly prohibit from uploading
+                            company data or other band files
+                        </p>
+                    </Dragger>
                 </div>
                 <div className={clsx(
                     styles.btn
