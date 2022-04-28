@@ -38,7 +38,7 @@ const nextConfig = {
     ]
   },
   env: {
-    URL: 'http://localhost:5000',
+    URL: 'https://snapshot-nextjs.herokuapp.com',
   },
 }
 
