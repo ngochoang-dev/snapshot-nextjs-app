@@ -2,6 +2,7 @@ import { useState, ChangeEvent, useEffect } from 'react';
 import Head from 'next/head';
 import clsx from 'clsx';
 import { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Button, message } from 'antd';
 import { EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
@@ -190,7 +191,7 @@ const Singup: NextPage<IProps> = ({ previousRoute }) => {
 
 export default Singup;
 
-export const getServerSideProps = wrapper.getServerSideProps(
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
     () => async ({ req, }): Promise<any> => {
         const session = await getSession({ req });
         const previousRoute = req.headers.referer ? req.headers.referer : '';

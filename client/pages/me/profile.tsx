@@ -1,4 +1,5 @@
-import type { NextPage } from 'next'
+import type { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import clsx from "clsx";
 import Head from 'next/head'
 import { getSession } from 'next-auth/react';
@@ -29,7 +30,7 @@ const Profile: NextPage = () => {
 
 export default Profile;
 
-export const getServerSideProps = wrapper.getServerSideProps(
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
     () => async ({ req, }): Promise<any> => {
         const session = await getSession({ req });
 

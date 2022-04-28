@@ -3,6 +3,7 @@ import Head from 'next/head';
 import clsx from 'clsx';
 import { ChangeEvent } from 'react';
 import { NextPage } from 'next';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { AiFillGithub, AiFillMail } from 'react-icons/ai';
 import { Avatar, Checkbox, Button, message, } from 'antd';
@@ -166,7 +167,7 @@ const Singin: NextPage<IProps> = ({ previousRoute }) => {
 
 export default Singin;
 
-export const getServerSideProps = wrapper.getServerSideProps(
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
     () => async ({ req }): Promise<any> => {
         const session = await getSession({ req });
         const previousRoute = req.headers.referer ? req.headers.referer : '';

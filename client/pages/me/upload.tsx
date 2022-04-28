@@ -1,5 +1,6 @@
 import type { NextPage } from 'next';
-import Head from 'next/head'
+import Head from 'next/head';
+import { GetServerSideProps } from 'next';
 
 import { useState, ChangeEvent, useEffect } from 'react';
 import clsx from "clsx";
@@ -136,7 +137,7 @@ const UploadSnapshot: NextPage = () => {
 
 export default UploadSnapshot;
 
-export const getServerSideProps = wrapper.getServerSideProps(
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
     () => async ({ req }): Promise<any> => {
         const session = await getSession({ req });
 

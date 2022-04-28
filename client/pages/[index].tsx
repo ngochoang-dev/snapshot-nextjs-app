@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { GetStaticProps } from 'next';
 import { useEffect } from 'react';
 import clsx from 'clsx';
 import Head from 'next/head';
@@ -81,12 +82,13 @@ export async function getStaticPaths() {
   }
 }
 
-export const getStaticProps = wrapper.getStaticProps(store => async ({ params }): Promise<any> => {
-  store.dispatch(getSnapshot(params?.index));
-  store.dispatch(END);
-  await (store as SagaStore).sagaTask?.toPromise();
-  return {
-    props: {},
-    revalidate: 10,
-  }
-});
+export const getStaticProps: GetStaticProps =
+  wrapper.getStaticProps(store => async ({ params }): Promise<any> => {
+    store.dispatch(getSnapshot(params?.index));
+    store.dispatch(END);
+    await (store as SagaStore).sagaTask?.toPromise();
+    return {
+      props: {},
+      revalidate: 10,
+    }
+  });
