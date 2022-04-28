@@ -69,6 +69,8 @@ const Gallery: NextPage = () => {
                                         alt={id?.toString()}
                                         width={500}
                                         height={450}
+                                        placeholder="blur"
+                                        blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMsLC2sBwAEjgHY5r5qEQAAAABJRU5ErkJggg=='
                                     />
                                     {
                                         session?.id === id && <button

@@ -27,8 +27,6 @@ const reducer = (
         }
 
         case ActionType.GET_SNAPSHOT_SUCCESS: {
-            console.log(action.payload.data);
-
             return { ...state, dataSnapshot: action.payload.data, loading: false }
         }
 

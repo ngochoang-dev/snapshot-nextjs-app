@@ -23,8 +23,6 @@ const UploadSnapshot: NextPage = () => {
     const { loading,
         isUploadSuccess,
         isUploadFail } = useSelector((state: AppState) => state)
-
-
     const [category, setCategory] = useState<string>("");
     const [fileList, setFileList] = useState<any>([]);
     const [disabled, setDisabled] = useState<boolean>(true);

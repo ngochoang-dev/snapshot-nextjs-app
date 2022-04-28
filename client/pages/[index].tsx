@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { GetStaticProps } from 'next';
+import { GetStaticProps, GetStaticPaths } from 'next';
 import { useEffect } from 'react';
 import clsx from 'clsx';
 import Head from 'next/head';
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
 export default Home;
 
 
-export async function getStaticPaths() {
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [
       {

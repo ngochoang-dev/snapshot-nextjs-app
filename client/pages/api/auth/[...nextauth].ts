@@ -51,11 +51,9 @@ export default NextAuth({
     pages: {
         signIn: '/auth/signin',
     },
-
     callbacks: {
         async session({ session, token }) {
             console.log("user", token);
-
             session.id = token.sub
             return Promise.resolve(session)
         },

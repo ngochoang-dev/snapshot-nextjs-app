@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Head from 'next/head';
 import clsx from 'clsx';
 import { ChangeEvent } from 'react';
-import { NextPage } from 'next';
+import type { NextPage } from 'next';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { AiFillGithub, AiFillMail } from 'react-icons/ai';
@@ -50,14 +50,12 @@ const Singin: NextPage<IProps> = ({ previousRoute }) => {
         const res: any = await signIn('credentials', {
             redirect: false,
             ...info,
-            callbackUrl: previousRoute ? previousRoute : '/',
         });
         if (res?.error) {
             message.error(res?.error);
             setLoading(false);
         } else {
-            router.push(previousRoute ? previousRoute : '/')
-            setLoading(false);
+            router.replace(previousRoute ? previousRoute : '/')
         }
     }
 

@@ -64,6 +64,7 @@ const Singup: NextPage<IProps> = ({ previousRoute }) => {
 
     useEffect(() => {
         async function autoSignin() {
+            setLoading(true);
             const res: any = await signIn('credentials', {
                 redirect: false,
                 ...info,
@@ -72,7 +73,7 @@ const Singup: NextPage<IProps> = ({ previousRoute }) => {
             if (res?.error) {
                 message.error(res?.error);
             } else {
-                router.push(previousRoute ? previousRoute : '/')
+                router.replace(previousRoute ? previousRoute : '/')
             }
         }
         if (isSignup) {
