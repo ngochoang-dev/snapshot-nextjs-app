@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     domains: [
+      'res.cloudinary.com',
       'farm66.staticflickr.com',
       'farm20.staticflickr.com',
       'farm19.staticflickr.com',
@@ -26,6 +27,15 @@ const nextConfig = {
       'farm1.staticflickr.com',
       'farm0.staticflickr.com',
     ],
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/mountain',
+        permanent: true,
+      },
+    ]
   },
   env: {
     URL: 'http://localhost:5000',

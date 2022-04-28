@@ -44,6 +44,16 @@ input:-webkit-autofill:active {
 .wrapper_popover ul li a {
   display: block;
   padding: 4px 0;
+  color: #333;
+  transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -ms-transition: all 0.25s;
+  -o-transition: all 0.25s;
+}
+
+.wrapper_popover ul li a:hover {
+  color: #40a9ff;
 }
 
 .wrapper_popover>p {
@@ -61,9 +71,15 @@ input:-webkit-autofill:active {
 
 .wrapper_popover>p span {
   margin-left: 6px;
+  color: #333;
   display: inline-block;
+  transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+  -moz-transition: all 0.25s;
+  -ms-transition: all 0.25s;
+  -o-transition: all 0.25s;
 }
 
-.wrapper_popover>p:hover {
+.wrapper_popover>p:hover span {
   color: tomato;
 }

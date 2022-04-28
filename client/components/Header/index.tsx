@@ -3,32 +3,26 @@ import clsx from 'clsx';
 import type { NextPage } from 'next'
 import { IoSearch } from 'react-icons/io5';
 import { Switch } from 'antd';
-import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { Avatar, Popover } from 'antd';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 import styles from './Header.module.scss';
-import { getSnapshot } from '../../redux/actions';
 
 const category = ["mountain", "beaches", "birds", "food", "shopping", "dog", "car"];
 
 const Header: NextPage = () => {
     const router = useRouter();
-    const dispatch = useDispatch();
     const { data: session, status } = useSession();
     const [searchValue, setSearchValue] = useState('');
 
     const handleSearch = (category?: string): void => {
-        const value = category ? category : searchValue
-        dispatch(getSnapshot(value));
+        const value = category ? category : searchValue;
         router.push(`/${value}`, undefined, { shallow: true });
         category && setSearchValue(category)
     }
-
-
 
     return (
         <div className={clsx(
@@ -40,7 +34,7 @@ const Header: NextPage = () => {
                 <div className={clsx(
                     styles.logo
                 )}>
-                    <h1>SnapShot</h1>
+                    <h1 onClick={() => router.push("/mountain", undefined, { shallow: true })}>SnapShot</h1>
                 </div>
                 <div className={clsx(
                     styles.wrapper_search
@@ -54,11 +48,11 @@ const Header: NextPage = () => {
                             value={searchValue}
                             onChange={e => setSearchValue(e.target.value)}
                             onKeyDown={(e) => {
-                                e.key === 'Enter' && handleSearch()
+                                e.key === 'Enter' && searchValue && handleSearch()
                             }}
                         />
                         <button
-                            onClick={() => handleSearch()}
+                            onClick={() => searchValue && handleSearch()}
                         >
                             <IoSearch className={clsx(styles.icons_search)} />
                         </button>
@@ -113,6 +107,11 @@ const Header: NextPage = () => {
                                             <li>
                                                 <Link href='/me/upload'>
                                                     <a>Upload photo</a>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link href='/me/snapshot'>
+                                                    <a>My snapshot</a>
                                                 </Link>
                                             </li>
                                         </ul>
