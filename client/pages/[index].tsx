@@ -21,7 +21,8 @@ const Home: NextPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const { query: { index } } = router;
-  const data = useSelector((state: AppState) => state.dataSnapshot);
+  const { dataSnapshot: data, loading
+  } = useSelector((state: AppState) => state);
 
 
   useEffect(() => {
@@ -37,15 +38,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {router.isFallback && <Loading loading={router.isFallback} />}
-      {
-        data.length > 0 ?
-          <Gallery /> :
-          <div className={clsx(
-            styles.empty
-          )}>
-            <Empty />
-          </div>
-      }
+      <Gallery />
+      {data.length === 0 && !loading && <div className={clsx(
+        styles.empty
+      )}>
+        <Empty />
+      </div>}
     </div>
   )
 }
@@ -92,3 +90,4 @@ export const getStaticProps: GetStaticProps =
       revalidate: 10,
     }
   });
+

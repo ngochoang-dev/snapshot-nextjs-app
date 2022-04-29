@@ -21,7 +21,9 @@ const Gallery: NextPage = () => {
     const { query: { index } } = router;
     const dispatch = useDispatch();
     const { data: session } = useSession();
-    const { dataSnapshot: dataArr, isRemove, loading } = useSelector((state: AppState) => state);
+    const { dataSnapshot: dataArr,
+        isRemove,
+        loading } = useSelector((state: AppState) => state);
 
     const handleRemove = (id: any) => {
         dispatch(removeSnapshot(id))

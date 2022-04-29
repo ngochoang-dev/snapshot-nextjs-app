@@ -5,11 +5,24 @@ import { ActionType } from './types';
 
 const initState: AppState = {
     loading: false,
-    dataSnapshot: [],
     isSignup: false,
     isUploadSuccess: false,
     isUploadFail: false,
     isRemove: false,
+    user: {
+        age: 0,
+        email: "",
+        gender: "",
+        introduction: "",
+        name: "",
+        nickname: "",
+        website: "",
+        avatar: "",
+        image: "",
+        username: "",
+        id: "",
+    },
+    dataSnapshot: [],
 }
 
 
@@ -19,7 +32,12 @@ const reducer = (
 ) => {
     switch (action.type) {
         case HYDRATE: {
-            return { ...state, ...action.payload }
+            const nextState = {
+                ...state,
+                ...action.payload,
+            };
+            if (state.user) nextState.user = state.user;
+            return nextState;
         }
 
         case ActionType.GET_SNAPSHOT_LOADING: {
@@ -82,6 +100,47 @@ const reducer = (
         case ActionType.REMOVE_SNAPSHOT_FAIL: {
             return {
                 ...state, isRemove: false, loading: false,
+            }
+        }
+
+        case ActionType.UPDATE_INFO_USER_LOADING: {
+            return {
+                ...state,
+                loading: true,
+            }
+        }
+
+        case ActionType.UPDATE_INFO_USER_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                user: {
+                    ...state.user,
+                    ...action.payload,
+                    avatar: action.payload.avatar ?
+                        action.payload.avatar :
+                        state.user.avatar
+                }
+            }
+        }
+
+        case ActionType.GET_INFO_USER_LOADING: {
+            return {
+                ...state,
+                loading: true,
+            }
+        }
+
+        case ActionType.GET_INFO_USER_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                user: {
+                    ...state.user,
+                    ...action.payload.data,
+                    avatar: action.payload.data.image,
+                    name: action.payload.data.username,
+                }
             }
         }
 

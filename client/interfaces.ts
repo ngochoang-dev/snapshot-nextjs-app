@@ -12,3 +12,18 @@ export interface DataUpload {
     category: string,
     data: SnapShot[]
 }
+
+
+export interface User {
+    age: number | string,
+    email: string,
+    gender: string,
+    introduction: string,
+    name: string,
+    nickname: string,
+    website: string,
+    avatar: any,
+    image: string,
+    username: string,
+    id: string | unknown,
+}

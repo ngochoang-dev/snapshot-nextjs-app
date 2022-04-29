@@ -1,5 +1,5 @@
 import { ActionType } from "./types";
-import { UserInfo, DataUpload } from "../interfaces";
+import { UserInfo, DataUpload, User } from "../interfaces";
 export interface FetchedDataSnapshot {
     type: typeof ActionType.GET_SNAPSHOT,
     payload: string | string[] | undefined
@@ -71,6 +71,31 @@ export interface FetchedRemoveSnapshotFail {
     payload: string
 }
 
+export interface FetchedUpdateInfo {
+    type: typeof ActionType.UPDATE_INFO_USER,
+    payload: User
+}
+
+export interface FetchedUpdateInfoLoading {
+    type: typeof ActionType.UPDATE_INFO_USER_LOADING,
+}
+
+export interface FetchedUpdateInfoSuccess {
+    type: typeof ActionType.UPDATE_INFO_USER_SUCCESS,
+    payload: User
+}
+
+export interface FetchedInfoUserSuccess {
+    type: typeof ActionType.GET_INFO_USER_SUCCESS,
+    payload: {
+        data: User
+    }
+}
+
+export interface FetchedInfoUserLoading {
+    type: typeof ActionType.GET_INFO_USER_LOADING,
+}
+
 
 export type Action =
     FetchedDataSnapshotLoading |
@@ -84,4 +109,8 @@ export type Action =
     FetchedUploadSnapshotFail |
     FetchedRemoveSnapshotLoading |
     FetchedRemoveSnapshotSuccess |
-    FetchedRemoveSnapshotFail
+    FetchedRemoveSnapshotFail |
+    FetchedUpdateInfoSuccess |
+    FetchedUpdateInfoLoading |
+    FetchedInfoUserSuccess |
+    FetchedInfoUserLoading

@@ -1,6 +1,5 @@
-import { ActionType } from "./types";
 
-
+import { User } from '../interfaces';
 export interface DataSnapshot {
     id?: number | null,
     link: string,
@@ -15,5 +14,6 @@ export interface AppState {
     isUploadSuccess: boolean,
     isUploadFail: boolean,
     isRemove: boolean,
+    user: User
 }
 

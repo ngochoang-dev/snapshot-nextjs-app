@@ -31,10 +31,10 @@ export default NextAuth({
                         data: payload
                     });
                     if (user) {
-                        const { username, id } = user.data.user
+                        const { username, id, image } = user.data.user
                         return {
                             name: username,
-                            image: 'https://joeschmoe.io/api/v1/random',
+                            image: image ? image : 'https://joeschmoe.io/api/v1/random',
                             id: id
                         }
                     }

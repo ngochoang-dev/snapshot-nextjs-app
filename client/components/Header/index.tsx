@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import type { NextPage } from 'next'
 import { IoSearch } from 'react-icons/io5';
@@ -8,21 +8,29 @@ import Link from 'next/link';
 import { Avatar, Popover } from 'antd';
 import { UserOutlined, LogoutOutlined } from '@ant-design/icons';
 import { signOut, useSession } from "next-auth/react";
+import { useSelector, useDispatch } from 'react-redux';
 
 import styles from './Header.module.scss';
-
+import { AppState } from '../../redux/data.interfaces';
+import { getInfoUser } from '../../redux/actions';
 const category = ["mountain", "beaches", "birds", "food", "shopping", "dog", "car"];
 
 const Header: NextPage = () => {
+    const dispatch = useDispatch();
     const router = useRouter();
     const { data: session, status } = useSession();
     const [searchValue, setSearchValue] = useState('');
+    const { avatar, name } = useSelector((state: AppState) => state.user)
 
     const handleSearch = (category?: string): void => {
         const value = category ? category : searchValue;
         router.push(`/${value}`, undefined, { shallow: true });
         category && setSearchValue(category)
     }
+
+    useEffect(() => {
+        dispatch(getInfoUser(session?.id))
+    }, [dispatch, session?.id])
 
     return (
         <div className={clsx(
@@ -121,9 +129,12 @@ const Header: NextPage = () => {
                                         </p>
                                     </div>
                                 } trigger="click">
-                                    <Avatar icon={<UserOutlined />} src={session.user?.image} />
+                                    <Avatar icon={<UserOutlined />} src={
+                                        avatar ?
+                                            avatar :
+                                            session.user?.image} />
                                 </Popover>
-                                <p>{session.user?.name}</p>
+                                <p>{name ? name : session.user?.name}</p>
                             </div>
                         )
                     }
