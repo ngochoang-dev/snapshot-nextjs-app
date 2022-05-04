@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styles from './Header.module.scss';
 import { AppState } from '../../redux/data.interfaces';
 import { getInfoUser } from '../../redux/actions';
-const category = ["mountain", "beaches", "birds", "food", "shopping", "dog", "car"];
+const category = ["mountain", "beaches", "birds", "food", "computer", "dog", "cocacola"];
 
 const Header: NextPage = () => {
     const dispatch = useDispatch();
@@ -21,6 +21,7 @@ const Header: NextPage = () => {
     const { data: session, status } = useSession();
     const [searchValue, setSearchValue] = useState('');
     const { avatar, name } = useSelector((state: AppState) => state.user)
+    const { isSignup } = useSelector((state: AppState) => state)
 
     const handleSearch = (category?: string): void => {
         const value = category ? category : searchValue;
@@ -30,7 +31,8 @@ const Header: NextPage = () => {
 
     useEffect(() => {
         dispatch(getInfoUser(session?.id))
-    }, [dispatch, session?.id])
+    }, [dispatch, session?.id]);
+
 
     return (
         <div className={clsx(
@@ -98,7 +100,7 @@ const Header: NextPage = () => {
                             </ul>
                         )
                     } {
-                        status === 'authenticated' && (
+                        !isSignup && status === 'authenticated' && (
                             <div className={clsx(
                                 styles.wrapper_user
                             )}>

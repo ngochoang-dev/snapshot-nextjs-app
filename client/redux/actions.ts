@@ -6,7 +6,7 @@ import {
     FetchedRemoveSnapshot,
     FetchedUpdateInfo
 } from './actions.interfaces';
-import { UserInfo, DataUpload, User } from "../interfaces";
+import { UserInfo, DataUpload, User, RemoveData } from "../interfaces";
 
 export const getSnapshot = (payload: string | string[] | undefined): FetchedDataSnapshot => {
     return {
@@ -29,7 +29,7 @@ export const uploadSnapshot = (payload: DataUpload): FetchedUploadSnapshot => {
     }
 }
 
-export const removeSnapshot = (payload: string): FetchedRemoveSnapshot => {
+export const removeSnapshot = (payload: RemoveData): FetchedRemoveSnapshot => {
     return {
         type: ActionType.REMOVE_SNAPSHOT,
         payload
@@ -46,6 +46,13 @@ export const updateInfoUser = (payload: User): FetchedUpdateInfo => {
 export const getInfoUser = (payload: string | unknown) => {
     return {
         type: ActionType.GET_INFO_USER,
+        payload
+    }
+}
+
+export const getMySnapshot = (payload: string | unknown) => {
+    return {
+        type: ActionType.GET_MY_SNAPSHOT,
         payload
     }
 }

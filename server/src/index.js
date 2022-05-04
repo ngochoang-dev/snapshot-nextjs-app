@@ -22,6 +22,39 @@ app.use(bodyParser.urlencoded({
 const Snapshot = require('./models/Snapshot');
 const User = require('./models/User');
 
+
+// GET
+app.get('/my-snapshot', (req, res) => {
+    const uploaderId = req.header('uploaderId');
+
+    if (!uploaderId)
+        return res.status(406).json({
+            success: false, message: 'You are not signin'
+        });
+
+    Snapshot.find({ uploaderId: uploaderId })
+        .then(data => {
+            const newData = data.map(({ uploaderId, link, _id }) => {
+                return {
+                    id: uploaderId,
+                    photoId: _id,
+                    link: link
+                }
+            })
+            res.json({
+                success: true,
+                data: newData
+            })
+        })
+        .catch(error => {
+            console.log(error);
+            return res.status(500).json({
+                success: false,
+                message: 'Fail'
+            })
+        })
+})
+
 // GET 
 app.get('/:query', async (req, res) => {
     const { query } = req.params;
@@ -178,6 +211,11 @@ app.post('/account/signup', (req, res) => {
 // DELETE
 app.delete('/remove', (req, res) => {
     const { id } = req.query;
+    const uploaderId = req.header('uploaderId');
+    if (!uploaderId)
+        return res.status(406).json({
+            success: false, message: 'You are not signin'
+        });
     Snapshot.deleteOne({ _id: id })
         .then(() => {
             res.json({ success: true, message: 'Deleted' })
@@ -274,6 +312,9 @@ app.get('/user/info', (req, res) => {
             })
         })
 })
+
+
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Example app listening on port ${process.env.PORT}`)

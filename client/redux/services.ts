@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UserInfo, DataUpload, User } from '../interfaces';
+import { UserInfo, DataUpload, User, RemoveData } from '../interfaces';
 
 export const handleGetSnapshot = (payload: string | string[] | undefined) => {
     return axios.get(`${process.env.URL}/${payload}`)
@@ -16,8 +16,12 @@ export const handleUploadSnapshot = (payload: DataUpload) => {
     })
 }
 
-export const handleRemoveSnapshot = (payload: string) => {
-    return axios.delete(`${process.env.URL}/remove?id=${payload}`)
+export const handleRemoveSnapshot = (payload: RemoveData) => {
+    return axios.delete(`${process.env.URL}/remove?id=${payload.photoId}`, {
+        headers: {
+            uploaderId: payload.uploaderId
+        },
+    })
 }
 
 export const handleUpdateInfo = (payload: User) => {
@@ -26,4 +30,12 @@ export const handleUpdateInfo = (payload: User) => {
 
 export const handleGetInfoUser = (payload: string) => {
     return axios.get(`${process.env.URL}/user/info?id=${payload}`)
+}
+
+export const handleGetMySnapshot = (payload: string) => {
+    return axios.get(`${process.env.URL}/my-snapshot`, {
+        headers: {
+            uploaderId: payload
+        },
+    })
 }

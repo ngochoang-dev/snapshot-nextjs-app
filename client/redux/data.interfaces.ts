@@ -4,7 +4,7 @@ export interface DataSnapshot {
     id?: number | null,
     link: string,
     category?: string | null,
-    photoId?: string | null
+    photoId?: string | null,
 }
 
 export interface AppState {

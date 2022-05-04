@@ -22,7 +22,7 @@ const SideBar: NextPage = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link href="/me/photo">
+                    <Link href="/me/snapshot">
                         <a>My Snapshot</a>
                     </Link>
                 </li>

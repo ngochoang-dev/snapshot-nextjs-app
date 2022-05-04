@@ -127,20 +127,35 @@ const reducer = (
         case ActionType.GET_INFO_USER_LOADING: {
             return {
                 ...state,
-                loading: true,
+                isSignup: true,
             }
         }
 
         case ActionType.GET_INFO_USER_SUCCESS: {
             return {
                 ...state,
-                loading: false,
+                isSignup: false,
                 user: {
                     ...state.user,
                     ...action.payload.data,
                     avatar: action.payload.data.image,
                     name: action.payload.data.username,
                 }
+            }
+        }
+
+        case ActionType.GET_MY_SNAPSHOT_LOADING: {
+            return {
+                ...state,
+                loading: true,
+            }
+        }
+
+        case ActionType.GET_MY_SNAPSHOT_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                dataSnapshot: action.payload.data
             }
         }
 

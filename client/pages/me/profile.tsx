@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import { useRef, ChangeEvent, useState } from 'react';
+import { useRef, ChangeEvent, useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import clsx from "clsx";
 import Head from 'next/head';
@@ -59,10 +59,12 @@ const Profile: NextPage = () => {
         website,
         avatar: image,
     } = useSelector((state: AppState) => state.user);
-    const { loading } = useSelector((state: AppState) => state);
+    const { loading, isSignup } = useSelector((state: AppState) => state);
     const inputRef = useRef<HTMLInputElement>(null);
     const { data: session } = useSession();
-    const [avatar, setAvatar] = useState<string | ArrayBuffer | null>()
+    const [avatar, setAvatar] = useState<string | ArrayBuffer | null>();
+    const [previewAvt, setPreviewAvt] = useState<string>('');
+
     const handleChangeAvatar = (e: ChangeEvent<HTMLInputElement>) => {
         const file: File = (e.target.files as FileList)[0];
         if (!file) return;
@@ -71,12 +73,19 @@ const Profile: NextPage = () => {
         reader.onloadend = () => {
             setAvatar(reader.result)
         }
+        setPreviewAvt(() => URL.createObjectURL(file))
     }
 
     const onFinish = (values: User) => {
         const info = { ...values, avatar, id: session?.id };
         dispatch(updateInfoUser(info));
     };
+
+    useEffect(() => {
+        return () => {
+            previewAvt && URL.revokeObjectURL(previewAvt)
+        }
+    }, [previewAvt])
 
 
     return (
@@ -99,7 +108,9 @@ const Profile: NextPage = () => {
                     onClick={() => inputRef?.current?.click()}
                 >
                     <Avatar icon={<UserOutlined />} src={
-                        image ? image : session?.user?.image
+                        previewAvt
+                            ? previewAvt
+                            : !(isSignup && image) ? image : session?.user?.image
                     } size={100} />
                     <button>
                         <CgArrowsExchange className={clsx(styles.icon_change)} />

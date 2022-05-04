@@ -27,3 +27,8 @@ export interface User {
     username: string,
     id: string | unknown,
 }
+
+export interface RemoveData {
+    photoId: string,
+    uploaderId: any,
+}

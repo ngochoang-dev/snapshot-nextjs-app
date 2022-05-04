@@ -1,47 +1,25 @@
 import type { NextPage } from 'next';
 import { useEffect } from 'react';
 import clsx from 'clsx'
-import Image from 'next/image'
-import { Row, Col, Modal } from 'antd';
+import Image from 'next/image';
+import { Row, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { MinusCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 import styles from './Gallery.module.scss';
 import { AppState } from '../../redux/data.interfaces';
-import { removeSnapshot, getSnapshot } from '../../redux/actions';
+import { getSnapshot } from '../../redux/actions';
 import Loading from '../Loading';
 
-
-const { confirm } = Modal;
 
 const Gallery: NextPage = () => {
     const router = useRouter();
     const { query: { index } } = router;
     const dispatch = useDispatch();
-    const { data: session } = useSession();
     const { dataSnapshot: dataArr,
         isRemove,
         loading } = useSelector((state: AppState) => state);
 
-    const handleRemove = (id: any) => {
-        dispatch(removeSnapshot(id))
-    }
-
-    function showDeleteConfirm(photoId: any) {
-        confirm({
-            title: 'Are you sure delete this photo?',
-            icon: <ExclamationCircleOutlined />,
-            content: 'This photo cannot be restored',
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk() {
-                handleRemove(photoId)
-            },
-        });
-    }
 
     useEffect(() => {
         if (isRemove) {
@@ -57,7 +35,7 @@ const Gallery: NextPage = () => {
             {loading && <Loading loading={loading} />}
             <Row gutter={[20, 20]}>
                 {
-                    dataArr && dataArr.map(({ id, link, photoId }, i) => {
+                    dataArr && dataArr.map(({ id, link }, i) => {
                         return (
                             <Col span={6} xs={12} sm={12} md={6} lg={6} key={i}>
                                 <div className={clsx(
@@ -74,15 +52,6 @@ const Gallery: NextPage = () => {
                                         placeholder="blur"
                                         blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mMsLC2sBwAEjgHY5r5qEQAAAABJRU5ErkJggg=='
                                     />
-                                    {
-                                        session?.id === id && <button
-                                            onClick={() => showDeleteConfirm(photoId)}
-                                        >
-                                            <MinusCircleOutlined className={clsx(
-                                                styles.icon_remove
-                                            )} />
-                                        </button>
-                                    }
                                 </div>
                             </Col>
                         )
